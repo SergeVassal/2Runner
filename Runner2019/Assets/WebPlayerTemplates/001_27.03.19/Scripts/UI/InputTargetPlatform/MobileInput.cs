@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class MobileInput : VirtualInput
 {
@@ -6,7 +9,7 @@ public class MobileInput : VirtualInput
     {
         if (!AxisExists(name))
         {
-            throw new Exception("There's no such axis registered");
+            throw new Exception("There's no such axis registered!");
         }
         virtualAxes[name].Update(value);
     }
@@ -15,7 +18,7 @@ public class MobileInput : VirtualInput
     {
         if (!AxisExists(name))
         {
-            throw new Exception("There's no such axis registered");
+            throw new Exception("There's no such axis registered!");
         }
         virtualAxes[name].Update(1f);
     }
@@ -24,7 +27,7 @@ public class MobileInput : VirtualInput
     {
         if (!AxisExists(name))
         {
-            throw new Exception("There's no such axis registered");
+            throw new Exception("There's no such axis registered!");
         }
         virtualAxes[name].Update(-1f);
     }
@@ -33,16 +36,16 @@ public class MobileInput : VirtualInput
     {
         if (!AxisExists(name))
         {
-            throw new Exception("There's no such axis registered");
+            throw new Exception("There's no such axis registered!");
         }
         virtualAxes[name].Update(0f);
     }
 
-    public override float GetAxis(string name,bool raw)
+    public override float GetAxis(string name, bool raw)
     {
         if (!AxisExists(name))
         {
-            throw new Exception("There's no such axis registered");
+            throw new Exception("There's no such axis registered!");
         }
         return virtualAxes[name].GetValue();
     }
@@ -52,7 +55,7 @@ public class MobileInput : VirtualInput
     {
         if (!ButtonExists(name))
         {
-            throw new Exception("There's no such button registered");
+            throw new Exception("There's no such button registered!");
         }
         virtualButtons[name].Press();
     }
@@ -61,16 +64,26 @@ public class MobileInput : VirtualInput
     {
         if (!ButtonExists(name))
         {
-            throw new Exception("There's no such button registered");
+            throw new Exception("There's no such button registered!");
         }
         virtualButtons[name].Release();
-    }   
+    }
+
+    public override bool GetButton(string name)
+    {
+        if (!ButtonExists(name))
+        {
+            throw new Exception("There's no such button registered!");
+        }
+        return virtualButtons[name].GetButton();
+
+    }  
 
     public override bool GetButtonDown(string name)
     {
         if (!ButtonExists(name))
         {
-            throw new Exception("There's no such button registered");
+            throw new Exception("There's no such button registered!");
         }
         return virtualButtons[name].GetButtonDown();
     }
@@ -79,17 +92,8 @@ public class MobileInput : VirtualInput
     {
         if (!ButtonExists(name))
         {
-            throw new Exception("There's no such button registered");
+            throw new Exception("There's no such button registered!");
         }
         return virtualButtons[name].GetButtonUp();
-    }
-
-    public override bool GetButton(string name)
-    {
-        if (!ButtonExists(name))
-        {
-            throw new Exception("There's no such button registered");
-        }
-        return virtualButtons[name].GetButton();
-    }
+    } 
 }

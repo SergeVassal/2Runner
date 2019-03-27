@@ -1,76 +1,69 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using System;
 
 public abstract class VirtualInput 
 {
-    protected Dictionary<string, CrossPlatformInputManager.VirtualAxis> virtualAxes=
+    protected Dictionary<string, CrossPlatformInputManager.VirtualAxis> virtualAxes =
         new Dictionary<string, CrossPlatformInputManager.VirtualAxis>();
 
-    protected Dictionary<string, CrossPlatformInputManager.VirtualButton> virtualButtons=
+    protected Dictionary<string, CrossPlatformInputManager.VirtualButton> virtualButtons =
         new Dictionary<string, CrossPlatformInputManager.VirtualButton>();
 
 
 
     public CrossPlatformInputManager.VirtualAxis VirtualAxisReference(string name)
     {
-        return virtualAxes.ContainsKey(name) ? virtualAxes[name] : null;
+        return AxisExists(name) ? virtualAxes[name] : null;
     }
-
-
-    public void RegisterVirtualAxis(CrossPlatformInputManager.VirtualAxis axis)
-    {
-        if (virtualAxes.ContainsKey(axis.Name))
-        {
-            Debug.LogError("There is already a virtual axis named " + axis.Name + " registered.");
-        }
-        else
-        {
-            virtualAxes.Add(axis.Name, axis);
-        }
-    }
-
-    public void RegisterVirtualButton(CrossPlatformInputManager.VirtualButton button)
-    {
-        if (virtualButtons.ContainsKey(button.Name))
-        {
-            Debug.LogError("There is already a virtual axis named " + button.Name + " registered.");
-        }
-        else
-        {
-            virtualButtons.Add(button.Name, button);
-        }
-    }
-
-    public void UnregisterVirtualAxis(string name)
-    {
-        if (virtualAxes.ContainsKey(name))
-        {
-            virtualAxes.Remove(name);
-        }
-    }
-
-    public void UnregisterVirtualButton(string name)
-    {
-        if (virtualButtons.ContainsKey(name))
-        {
-            virtualButtons.Remove(name);
-        }
-    }
-
 
     public bool AxisExists(string name)
     {
         return virtualAxes.ContainsKey(name);
-    }    
+    }
 
     public bool ButtonExists(string name)
     {
         return virtualButtons.ContainsKey(name);
     }
 
+    public void RegisterVirtualAxis(CrossPlatformInputManager.VirtualAxis newVirtualAxis)
+    {
+        if (AxisExists(newVirtualAxis.Name))
+        {
+            throw new Exception("There is already a virtual axis named " + newVirtualAxis.Name + " registered.");
+        }
+        virtualAxes.Add(newVirtualAxis.Name, newVirtualAxis);
+    }
 
-    public abstract void SetAxis(string name,float value);
+    public void RegisterVirtualButton(CrossPlatformInputManager.VirtualButton newVirtualButton)
+    {
+        if (ButtonExists(newVirtualButton.Name))
+        {
+            throw new Exception("There is already a virtual button named " + newVirtualButton.Name + " registered.");
+        }
+        virtualButtons.Add(newVirtualButton.Name, newVirtualButton);
+    }
+
+    public void UnRegisterAxis(string name)
+    {
+        if (AxisExists(name))
+        {
+            throw new Exception("There's no such axis registered!");
+        }
+        virtualAxes.Remove(name);
+    }
+
+    public void UnRegisterButton(string name)
+    {
+        if (!ButtonExists(name))
+        {
+            throw new Exception("There's no such button registered!");
+        }
+        virtualButtons.Remove(name);
+    }
+
+
+    public abstract void SetAxis(string name, float value);
 
     public abstract void SetAxisPositive(string name);
 
@@ -85,10 +78,9 @@ public abstract class VirtualInput
 
     public abstract void SetButtonUp(string name);
 
-    public abstract bool GetButton(string name);
-
     public abstract bool GetButtonDown(string name);
 
     public abstract bool GetButtonUp(string name);
 
+    public abstract bool GetButton(string name);
 }

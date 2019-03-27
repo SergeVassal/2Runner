@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StandaloneInput : VirtualInput
@@ -39,6 +41,11 @@ public class StandaloneInput : VirtualInput
         throw new Exception(" This is not possible to be called for standalone input. Please check your platform and code where this is called");
     }
 
+    public override bool GetButton(string name)
+    {
+        return Input.GetButton(name);
+    }
+
     public override bool GetButtonDown(string name)
     {
         return Input.GetButtonDown(name);
@@ -47,11 +54,6 @@ public class StandaloneInput : VirtualInput
     public override bool GetButtonUp(string name)
     {
         return Input.GetButtonUp(name);
-    }
-
-    public override bool GetButton(string name)
-    {
-        return Input.GetButton(name);
-    }
+    }   
 
 }

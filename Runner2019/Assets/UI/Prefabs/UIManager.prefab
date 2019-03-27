@@ -93,7 +93,6 @@ GameObject:
   - component: {fileID: 224654535400492006}
   - component: {fileID: 222975864125787648}
   - component: {fileID: 114616144079407690}
-  - component: {fileID: 114662059245860652}
   m_Layer: 5
   m_Name: ScoreText
   m_TagString: Untagged
@@ -138,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1699257421550834
 GameObject:
   m_ObjectHideFlags: 1
@@ -202,7 +201,6 @@ GameObject:
   - component: {fileID: 224411457748771902}
   - component: {fileID: 222141918865894516}
   - component: {fileID: 114898360540962484}
-  - component: {fileID: 114169559214790566}
   m_Layer: 5
   m_Name: MobileControlRig
   m_TagString: Untagged
@@ -210,17 +208,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114169559214790566
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1903692840148312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 636b1b863ff2a4b478b597b7f305cdd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114182235955815646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -533,17 +520,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Score
---- !u!114 &114662059245860652
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1587151445608902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd53efc314cd7f942a51e1f1697583d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114669797577971850
 MonoBehaviour:
   m_ObjectHideFlags: 1

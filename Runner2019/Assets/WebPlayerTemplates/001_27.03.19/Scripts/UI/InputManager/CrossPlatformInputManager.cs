@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class CrossPlatformInputManager 
@@ -14,36 +16,67 @@ public static class CrossPlatformInputManager
     private static VirtualInput standaloneInput;
 
 
-
+    
     static CrossPlatformInputManager()
     {
         mobileInput = new MobileInput();
         standaloneInput = new StandaloneInput();
-
-#if MOBILE_INPUT
+#if MOBILE_INPUT 
         activeInput = mobileInput;
 #else
-        activeInput = standaloneInput;
+        activeInput=standaloneInput;
 #endif
     }
+        
     
-    public static void SwitchActiveInputMethod(ActiveInputMethod activeInputMethod)
+    public static void ChangeActiveInputMethod(ActiveInputMethod activeInputMethod)
     {
         switch (activeInputMethod)
         {
-            case ActiveInputMethod.Standalone:
-                activeInput = standaloneInput;
-                break;
             case ActiveInputMethod.Mobile:
                 activeInput = mobileInput;
                 break;
+            case ActiveInputMethod.Standalone:
+                activeInput = standaloneInput;
+                break;                
         }
     }
-    
-    public static VirtualAxis VirtualAxisReference(string name)
+
+
+    public static CrossPlatformInputManager.VirtualAxis VirtualAxisReference(string name)
     {
         return activeInput.VirtualAxisReference(name);
     }
+
+
+    public static void RegisterVirtualAxis(VirtualAxis axis)
+    {
+        activeInput.RegisterVirtualAxis(axis);
+    }
+
+    public static void RegisterVirtualButton(VirtualButton button)
+    {
+        activeInput.RegisterVirtualButton(button);
+    }
+
+    public static void UnRegisterVirtualAxis(string name)
+    {
+        if (name == null)
+        {
+            throw new ArgumentNullException("name");
+        }
+        activeInput.UnregisterVirtualAxis(name);
+    }
+
+    public static void UnRegisterVirtualButton(string name)
+    {
+        if (name == null)
+        {
+            throw new ArgumentNullException("name");
+        }
+        activeInput.UnregisterVirtualButton(name);
+    }
+
 
     public static bool AxisExists(string name)
     {
@@ -55,35 +88,8 @@ public static class CrossPlatformInputManager
         return activeInput.ButtonExists(name);
     }
 
-    public static void RegisterVirtualAxis(VirtualAxis newVirtualAxis)
-    {
-        activeInput.RegisterVirtualAxis(newVirtualAxis); 
-    }
 
-    public static void RegisterVirtualButton(VirtualButton newVirtualButton)
-    {
-        activeInput.RegisterVirtualButton(newVirtualButton);
-    }
-
-    public static void UnRegisterAxis(string name)
-    {
-        if (name == null)
-        {
-            throw new ArgumentNullException("name");
-        }
-        activeInput.UnRegisterAxis(name);
-    }
-
-    public static void UnRegisterButton(string name)
-    {
-        if (name == null)
-        {
-            throw new ArgumentNullException("name");
-        }
-        activeInput.UnRegisterButton(name);
-    }
-
-
+    // -- Axis handling --
     public static void SetAxis(string name, float value)
     {
         activeInput.SetAxis(name, value);
@@ -104,22 +110,25 @@ public static class CrossPlatformInputManager
         activeInput.SetAxisZero(name);
     }
 
+    // returns the platform appropriate axis for the given name
     public static float GetAxis(string name)
     {
-        return GetAxis(name,false);
+        return GetAxis(name, false);
     }
 
     public static float GetAxisRaw(string name)
     {
-        return GetAxis(name,true);
+        return GetAxis(name, true);
     }
 
+    // private function handles both types of axis (raw and not raw)
     private static float GetAxis(string name, bool raw)
     {
         return activeInput.GetAxis(name, raw);
     }
 
 
+    // -- Button handling --
     public static void SetButtonDown(string name)
     {
         activeInput.SetButtonDown(name);
@@ -128,6 +137,11 @@ public static class CrossPlatformInputManager
     public static void SetButtonUp(string name)
     {
         activeInput.SetButtonUp(name);
+    }
+
+    public static bool GetButton(string name)
+    {
+        return activeInput.GetButton(name);
     }
 
     public static bool GetButtonDown(string name)
@@ -140,29 +154,26 @@ public static class CrossPlatformInputManager
         return activeInput.GetButtonUp(name);
     }
 
-    public static bool GetButton(string name)
-    {
-        return activeInput.GetButton(name);
-    }
-    
 
 
     public class VirtualAxis
     {
-        public string Name { get; private set; }
-
+        private string name;
         private float value;
 
-
-
-        public VirtualAxis(string axisName)
+        public string Name
         {
-            Name = axisName;
+            get { return name; }
         }
 
-        public void Update(float newValue)
+        public VirtualAxis(string name)
         {
-            value = newValue;
+            this.name = name;
+        }
+
+        public void Update(float value)
+        {
+            this.value = value;
         }
 
         public float GetValue()
@@ -170,26 +181,34 @@ public static class CrossPlatformInputManager
             return value;
         }
 
+        public float GetValueRaw()
+        {
+            return value;
+        }
+
         public void Remove()
         {
-            UnRegisterAxis(Name);
+            UnRegisterVirtualAxis(name);
         }
     }
 
 
     public class VirtualButton
     {
-        public string Name { get; private set; }
-
+        private string name;
         private bool pressed;
+
         private int lastPressedFrame = -5;
         private int releasedFrame = -5;
 
-
-
-        public VirtualButton(string buttonName)
+        public string Name
         {
-            Name = buttonName;
+            get { return name; }
+        }
+
+        public VirtualButton(string name)
+        {
+            this.name = name;
         }
 
         public void Press()
@@ -204,13 +223,13 @@ public static class CrossPlatformInputManager
 
         public void Release()
         {
-            pressed = false;
+            pressed = false;            
             releasedFrame = Time.frameCount;
         }
 
         public bool GetButton()
-        {
-            return pressed;
+        {    
+            return pressed;            
         }
 
         public bool GetButtonDown()
@@ -222,7 +241,11 @@ public static class CrossPlatformInputManager
         {
             return (releasedFrame == Time.frameCount - 1);
         }
-    }
 
-	
+        public void Remove()
+        {
+            UnRegisterVirtualButton(name);
+        }
+
+    }
 }
