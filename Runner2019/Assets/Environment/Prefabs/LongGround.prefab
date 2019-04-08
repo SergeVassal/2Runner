@@ -36,6 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4228813199170404}
+  - component: {fileID: 114620400004554944}
   m_Layer: 0
   m_Name: LongGround
   m_TagString: Untagged
@@ -97,7 +98,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1541328860243480}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -63.1, y: -4.6, z: -10.179776}
+  m_LocalPosition: {x: 117.3, y: -17.99572, z: -0.27741337}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4879307481031018}
@@ -207,6 +208,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 26.67, y: 3.67}
   m_EdgeRadius: 0
+--- !u!114 &114620400004554944
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1541328860243480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f466e1230ea84c84d9aec7d3e6d91644, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212414988506990620
 SpriteRenderer:
   m_ObjectHideFlags: 1
