@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroundSpawnable : SpawnableAbstract
+public class EnvironmentSpawnable : SpawnableAbstract
 {   
     private void OnDisable()
     {

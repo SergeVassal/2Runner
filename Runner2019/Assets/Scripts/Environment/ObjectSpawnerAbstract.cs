@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,10 +11,12 @@ public abstract class ObjectSpawnerAbstract : MonoBehaviour
 
     protected List<GameObject> activeObjectsPool=new List<GameObject>();
     protected List<GameObject> inactiveObjectsPool = new List<GameObject>();
-    
-    
 
+    public event Action OnSpawn;
 
+    private bool spawnAllowed=true;
+        
+    
 
     private void Start()
     {
@@ -29,8 +32,13 @@ public abstract class ObjectSpawnerAbstract : MonoBehaviour
             if (goToAdd != null)
             {
                 GameObject go = (GameObject)Instantiate(goToAdd, transform.position, Quaternion.identity, poolParentGO);
-                go.GetComponent<SpawnableAbstract>().SetObjectSpawner(this);
-                go.SetActive(false);
+                if (go.GetComponent<SpawnableAbstract>() != null)
+                {
+                    go.GetComponent<SpawnableAbstract>().SetObjectSpawner(this);
+
+                    //After being deactivated, gameobject is automatically placed into inactiveObjectsPool
+                    go.SetActive(false);
+                }                
             }
         }
     }
@@ -38,7 +46,7 @@ public abstract class ObjectSpawnerAbstract : MonoBehaviour
     {
         if (gameObjectArray.Length > 0)
         {
-            GameObject newGO = gameObjectArray[Random.Range(0, gameObjectArray.Length)];
+            GameObject newGO = gameObjectArray[UnityEngine.Random.Range(0, gameObjectArray.Length)];
             return newGO;
         }
         return null;
@@ -50,23 +58,30 @@ public abstract class ObjectSpawnerAbstract : MonoBehaviour
     {
         if (inactiveObjectsPool.Count > 0)
         {
-            GameObject go = inactiveObjectsPool[0];
-            go.transform.position = transform.position;
-            go.SetActive(true);
-            activeObjectsPool.Add(go);
-            inactiveObjectsPool.Remove(go);
+            if (OnSpawn != null)
+            {
+                OnSpawn();
+            }            
 
-            Debug.Log("inactiveObjectsPool   " + inactiveObjectsPool.Count);
-            Debug.Log("activeObjectsPool   " + activeObjectsPool.Count);
+            if (spawnAllowed)
+            {
+                GameObject go = inactiveObjectsPool[0];
+                go.transform.position = transform.position;
+                go.SetActive(true);
+                activeObjectsPool.Add(go);
+                inactiveObjectsPool.Remove(go);
+            }            
         }
     } 
+
+    public void SetSpawnAllowed(bool isAllowed)
+    {
+        spawnAllowed = isAllowed;
+    }
 
     public void DisableSpawnedObject(GameObject objToDisable)
     {
         inactiveObjectsPool.Add(objToDisable);
-        activeObjectsPool.Remove(objToDisable);
-        objToDisable.gameObject.SetActive(false);
-        Debug.Log("inactiveObjectsPool   " + inactiveObjectsPool.Count);
-        Debug.Log("activeObjectsPool   " + activeObjectsPool.Count);
+        activeObjectsPool.Remove(objToDisable);             
     }
 }

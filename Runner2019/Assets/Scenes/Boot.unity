@@ -156,3 +156,23 @@ Prefab:
     - {fileID: 114271874489587378, guid: e141901312d21bd4a8157cb11a001de6, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: e141901312d21bd4a8157cb11a001de6, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &700393554 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1270836459396928, guid: e141901312d21bd4a8157cb11a001de6,
+    type: 2}
+  m_PrefabInternal: {fileID: 700393553}
+--- !u!114 &700393555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 700393554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4042f7784a0936d4e881d143e71eed48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SystemPrefabs:
+  - {fileID: 1596547419017614, guid: 3733d3cf336110a4c9f1496354ee2622, type: 2}
+  initialSceneName: 001Level
+  bootSceneName: Boot

@@ -11,6 +11,5 @@ public abstract class SpawnableAbstract : MonoBehaviour
     public void SetObjectSpawner(ObjectSpawnerAbstract objectSpawnerParam)
     {
         objectSpawner = objectSpawnerParam;
-        Debug.Log(objectSpawner);
     }    
 }

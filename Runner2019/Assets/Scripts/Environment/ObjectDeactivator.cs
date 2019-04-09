@@ -12,7 +12,7 @@ public class ObjectDeactivator : MonoBehaviour
         }
         else
         {
-            if (collision.gameObject.transform.parent )
+            if (collision.gameObject.transform.parent.tag == "Ground")
             {
                 collision.gameObject.transform.parent.gameObject.SetActive(false);
             }            
