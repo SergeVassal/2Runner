@@ -22,46 +22,47 @@ public class MovementDynamicRBodyVelocityChange : MovementStrategyAbstract
     {
         float speed = isCrouching ? crouchSpeed : walkSpeed;
         return speed;
-    }  
+    }
+
+    protected override void StopRBodyIfGrounded()
+    {
+        if (isGrounded)
+        {            
+            targetRBodyVelocity.y = 0f;
+        }
+    }
+
+    protected override void AddGravityIfNeeded()
+    {
+        if (!isJumpPressedDuringFixedUpdate)
+        {
+            if (!isGrounded)
+            {
+                targetRBodyVelocity.y = previousRBodyVelocityY + Physics.gravity.y * gravityMultiplier;
+                previousRBodyVelocityY = targetRBodyVelocity.y;
+            }
+        }
+    }
 
     protected override void AddJumpForceIfNeeded()
-    {
-        if (isJumpPressed && !hasJumpedDuringThisUpdate)
+    {        
+        if (isJumpPressedDuringFixedUpdate && !hasJumpedDuringThisUpdate)
         {
+            isJumpPressedDuringFixedUpdate = false;  
+
             if (currJumpCount < maxJumpCount)
             {
                 targetRBodyVelocity.y = jumpSpeed;
                 hasJumpedDuringThisUpdate = true;
                 currJumpCount += 1;
             }
-            
-        }       
-    }
-
-    protected override void StopRBodyIfGrounded()
-    {
-        if (isGrounded)
-        {
-            targetRBodyVelocity.y = 0f;
         }
         previousRBodyVelocityY = targetRBodyVelocity.y;
-    }
-
-    protected override void AddGravityIfNeeded()
-    {      
-        if (!isJumpPressed)
-        {
-            if (!isGrounded)
-            {
-                targetRBodyVelocity.y = previousRBodyVelocityY + Physics.gravity.y * gravityMultiplier;                
-            }                       
-        }
-        previousRBodyVelocityY = targetRBodyVelocity.y;
-    }
+    }   
 
     protected override void ApplyRbodyMovement()
-    {        
-        rBody.velocity = targetRBodyVelocity;        
+    {
+        rBody.velocity = targetRBodyVelocity;
     }
 
     protected override void FlipCharacterIfNeeded()
