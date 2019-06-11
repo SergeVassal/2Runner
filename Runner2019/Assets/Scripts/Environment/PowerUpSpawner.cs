@@ -31,6 +31,7 @@ public class PowerUpSpawner : MonoBehaviour
         RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.down, checkForGroundDistance);
         if (hitInfo.collider == null)
         {
+            Debug.Log("Collider below  " + hitInfo.collider);
             return false;
         }
         else

@@ -23,7 +23,6 @@ public abstract class MovementStrategyAbstract
     protected float horizontalInputRaw;
 
     protected bool isJumpPressed;
-    protected bool isJumpPressedDuringFixedUpdate;
     protected bool hasJumpedDuringThisUpdate;
     protected bool previouslyGrounded;
     protected int currJumpCount;
@@ -67,13 +66,13 @@ public abstract class MovementStrategyAbstract
 
         AddHorizontalSpeedToRigidBody();
 
-        if (!isJumpPressedDuringFixedUpdate)
+        AddJumpForceIfNeeded();
+
+        if (!isJumpPressed)
         {
             StopRBodyIfGrounded();
             AddGravityIfNeeded();
-        }
-
-        AddJumpForceIfNeeded();                
+        }           
 
         ApplyRbodyMovement();
         FlipCharacterIfNeeded();        
@@ -99,8 +98,8 @@ public abstract class MovementStrategyAbstract
 
     private void GetCrossPlatformHorizontalInput()
     {
-        horizontalInputRaw = CrossPlatformInputManager.GetAxis("Horizontal");
-        //horizontalInputRaw = 0.5f;
+        //horizontalInputRaw = CrossPlatformInputManager.GetAxis("Horizontal");
+        horizontalInputRaw = 0.5f;
     }
 
     private void GetCrouchInput()
@@ -110,11 +109,11 @@ public abstract class MovementStrategyAbstract
 
     protected abstract void AddHorizontalSpeedToRigidBody();
 
+    protected abstract void AddJumpForceIfNeeded();
+
     protected abstract void StopRBodyIfGrounded();
 
     protected abstract void AddGravityIfNeeded();
-
-    protected abstract void AddJumpForceIfNeeded();    
 
     protected abstract void ApplyRbodyMovement();
 
@@ -147,10 +146,6 @@ public abstract class MovementStrategyAbstract
     public void GetJumpButtonInput()
     {
         isJumpPressed = CrossPlatformInputManager.GetButtonDown("Jump");
-        if (isJumpPressed)
-        {
-            isJumpPressedDuringFixedUpdate = true;
-        }
         if (isJumpPressed)
         {
             hasJumpedDuringThisUpdate = false;
