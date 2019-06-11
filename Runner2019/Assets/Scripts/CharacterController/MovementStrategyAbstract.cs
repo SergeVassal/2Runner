@@ -150,10 +150,7 @@ public abstract class MovementStrategyAbstract
         if (isJumpPressed)
         {
             isJumpPressedDuringFixedUpdate = true;
-        }
-        if (isJumpPressed)
-        {
             hasJumpedDuringThisUpdate = false;
-        }
+        }        
     }
 }

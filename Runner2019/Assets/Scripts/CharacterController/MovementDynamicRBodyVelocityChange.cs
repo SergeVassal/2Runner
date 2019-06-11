@@ -47,9 +47,7 @@ public class MovementDynamicRBodyVelocityChange : MovementStrategyAbstract
     protected override void AddJumpForceIfNeeded()
     {        
         if (isJumpPressedDuringFixedUpdate && !hasJumpedDuringThisUpdate)
-        {
-            isJumpPressedDuringFixedUpdate = false;  
-
+        {    
             if (currJumpCount < maxJumpCount)
             {
                 targetRBodyVelocity.y = jumpSpeed;
@@ -57,6 +55,7 @@ public class MovementDynamicRBodyVelocityChange : MovementStrategyAbstract
                 currJumpCount += 1;
             }
         }
+        isJumpPressedDuringFixedUpdate = false;
         previousRBodyVelocityY = targetRBodyVelocity.y;
     }   
 
