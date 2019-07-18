@@ -11,16 +11,13 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject[] SystemPrefabs;
     [SerializeField] private string initialSceneName;
     [SerializeField] private string bootSceneName;
+
     private List<GameObject> instancedSystemPrefabs;
-
     private int score;
-
     private string currentLevelName = string.Empty;
-
     private AsyncOperation ao;
     private List<AsyncOperation> loadOperations;
-
-
+    
 
     private void Start()
     {
